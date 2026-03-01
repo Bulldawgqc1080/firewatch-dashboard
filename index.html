@@ -365,7 +365,7 @@
       return '<tr class="' + (isOpen ? "open-row" : "") + '">' +
         '<td>' + s.date + '</td>' +
         '<td>' + s.block + '</td>' +
-        '<td>' + (s.name || '<em style="color:#999">Unassigned</em>') + '</td>' +
+        '<td>' + (isOpen ? '<a href="https://www.signupgenius.com/go/10C054FA9AC23A0F4C43-56532553-wctfire" target="_blank" style="color:#C0392B;font-weight:700;text-decoration:none;">Sign Up →</a>' : s.name) + '</td>' +
         '<td>' + (s.phone || '—') + '</td>' +
         '<td><span class="badge ' + s.status.toLowerCase() + '">' + s.status + '</span></td>' +
         '</tr>';
