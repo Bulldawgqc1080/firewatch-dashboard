@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fire Watch Coverage — Mercy Gilbert WCT</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #F4F6F8;
+      color: #1B2A4A;
+    }
+
+    header {
+      background: #1B2A4A;
+      color: white;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 4px solid #C0392B;
+    }
+
+    header h1 { font-size: 22px; font-weight: 700; }
+    header p  { font-size: 13px; color: #A0B4D0; margin-top: 4px; }
+
+    .last-updated { font-size: 12px; color: #A0B4D0; text-align: right; }
+
+    .summary {
+      display: flex;
+      gap: 20px;
+      padding: 24px 30px;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 8px;
+      padding: 20px 30px;
+      text-align: center;
+      flex: 1;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      border-top: 4px solid #1B2A4A;
+    }
+
+    .stat-card.open { border-top-color: #C0392B; }
+
+    .stat-card .number {
+      font-size: 42px;
+      font-weight: 800;
+      color: #1B2A4A;
+      line-height: 1;
+    }
+
+    .stat-card.open .number { color: #C0392B; }
+
+    .stat-card .label {
+      font-size: 13px;
+      color: #64748B;
+      margin-top: 6px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .filters {
+      padding: 0 30px 16px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .filters input, .filters select {
+      padding: 8px 14px;
+      border: 1px solid #DDE3ED;
+      border-radius: 6px;
+      font-size: 14px;
+      outline: none;
+      background: white;
+    }
+
+    .filters input { width: 220px; }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .badge.open   { background: #FFDEDE; color: #C0392B; }
+    .badge.filled { background: #E8F5E9; color: #2E7D32; }
+
+    .alert-banner {
+      margin: 0 30px 20px;
+      background: #FFDEDE;
+      border: 1px solid #C0392B;
+      border-radius: 8px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #C0392B;
+      font-weight: 600;
+    }
+
+    .alert-banner .icon { font-size: 22px; }
+
+    table {
+      width: calc(100% - 60px);
+      margin: 0 30px 30px;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    thead tr { background: #1B2A4A; color: white; }
+
+    thead th {
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    tbody tr { border-bottom: 1px solid #F0F2F5; }
+    tbody tr:hover { background: #F8FAFC; }
+    tbody tr.open-row { background: #FFF5F5; }
+    tbody tr.open-row:hover { background: #FFEAEA; }
+
+    tbody td {
+      padding: 11px 16px;
+      font-size: 14px;
+      color: #1B2A4A;
+    }
+
+    tbody tr.open-row td { color: #C0392B; font-weight: 600; }
+
+    .loading {
+      text-align: center;
+      padding: 60px;
+      color: #64748B;
+      font-size: 16px;
+    }
+
+    .error-msg {
+      margin: 0 30px 20px;
+      background: #FFF3CD;
+      border: 1px solid #FFC107;
+      border-radius: 8px;
+      padding: 14px 20px;
+      color: #856404;
+      font-size: 14px;
+    }
+
+    .refresh-btn {
+      padding: 8px 16px;
+      background: #1B2A4A;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .refresh-btn:hover { background: #263C5E; }
+
+    @media (max-width: 600px) {
+      .summary { flex-direction: column; padding: 16px; }
+      header { flex-direction: column; align-items: flex-start; gap: 8px; padding: 16px; }
+      table { width: calc(100% - 32px); margin: 0 16px 24px; }
+      .filters { padding: 0 16px 16px; }
+      .alert-banner { margin: 0 16px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Fire Watch Coverage</h1>
+    <p>Mercy Gilbert WCT Project</p>
+  </div>
+  <div class="last-updated">
+    Last Updated<br>
+    <strong id="lastUpdated">Loading...</strong>
+    <br><br>
+    <button class="refresh-btn" onclick="loadData()">↻ Refresh</button>
+  </div>
+</header>
+
+<div class="summary">
+  <div class="stat-card">
+    <div class="number" id="totalCount">—</div>
+    <div class="label">Total Shifts</div>
+  </div>
+  <div class="stat-card">
+    <div class="number" id="filledCount">—</div>
+    <div class="label">Filled</div>
+  </div>
+  <div class="stat-card open">
+    <div class="number" id="openCount">—</div>
+    <div class="label">Open</div>
+  </div>
+</div>
+
+<div id="alertBanner" style="display:none" class="alert-banner">
+  <span class="icon">🚨</span>
+  <span id="alertText"></span>
+</div>
+
+<div id="errorMsg" style="display:none" class="error-msg"></div>
+
+<div class="filters">
+  <input type="text" id="searchInput" placeholder="Search name, date, block..." oninput="renderTable()">
+  <select id="statusFilter" onchange="renderTable()">
+    <option value="ALL">All Shifts</option>
+    <option value="OPEN">Open Only</option>
+    <option value="FILLED">Filled Only</option>
+  </select>
+</div>
+
+<div id="tableContainer">
+  <div class="loading">Loading shift data...</div>
+</div>
+
+<script>
+  // ─────────────────────────────────────────────
+  // CONFIGURATION — GM View tab, published CSV
+  // ─────────────────────────────────────────────
+  var CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTcnQp8oo56skIT_F1bv003wtLv5nhYVwYmVBcaRXVGKSPQPxNZ0l6QJ4xuzbCXUSLZ-c9cwRXKaPLW/pub?gid=2012597347&single=true&output=csv";
+
+  var allShifts = [];
+
+  // Parse CSV text into array of objects
+  // GM View layout:
+  //   Row 1  — Title (merged)
+  //   Row 2  — Last Updated (merged)
+  //   Row 3  — blank
+  //   Row 4  — Stats headers (Total Shifts / Filled / Open)
+  //   Row 5  — Stats numbers
+  //   Row 6  — blank
+  //   Row 7  — Column headers (Date / Block / Assigned Name / Phone / Status)
+  //   Row 8+ — Shift data
+  function parseCSV(text) {
+    var lines  = text.trim().split("\n");
+    var shifts = [];
+    var today  = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Skip first 7 rows (summary + column header row), start from index 7
+    for (var i = 7; i < lines.length; i++) {
+      var cols = splitCSVLine(lines[i]);
+      if (cols.length < 5) continue;
+
+      // GM View columns: Date(0), Block(1), Assigned Name(2), Phone(3), Status(4)
+      var dateVal = cols[0] ? cols[0].trim().replace(/"/g, "") : "";
+      var status  = cols[4] ? cols[4].trim().replace(/"/g, "").toUpperCase() : "";
+
+      if (!dateVal || !status) continue;
+
+      // Skip past dates (dates already formatted as "Mar 1, 2026")
+      var shiftDate = new Date(dateVal);
+      if (isNaN(shiftDate) || shiftDate < today) continue;
+
+      shifts.push({
+        date:   dateVal,
+        block:  cols[1] ? cols[1].trim().replace(/"/g, "") : "",
+        name:   cols[2] ? cols[2].trim().replace(/"/g, "") : "",
+        phone:  cols[3] ? cols[3].trim().replace(/"/g, "") : "",
+        status: status
+      });
+    }
+
+    return shifts;
+  }
+
+  // Handle CSV fields that may be quoted (e.g. "Mar 1, 2026" with commas)
+  function splitCSVLine(line) {
+    var result = [], current = "", inQuotes = false;
+    for (var c = 0; c < line.length; c++) {
+      var ch = line[c];
+      if (ch === '"') { inQuotes = !inQuotes; }
+      else if (ch === ',' && !inQuotes) { result.push(current); current = ""; }
+      else { current += ch; }
+    }
+    result.push(current);
+    return result;
+  }
+
+  function loadData() {
+    document.getElementById("lastUpdated").textContent = "Refreshing...";
+    document.getElementById("errorMsg").style.display = "none";
+
+    // Add cache-busting timestamp
+    var url = CSV_URL + "&t=" + Date.now();
+
+    fetch(url)
+      .then(function(res) {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.text();
+      })
+      .then(function(text) {
+        allShifts = parseCSV(text);
+        updateStats();
+        renderTable();
+        document.getElementById("lastUpdated").textContent = new Date().toLocaleString("en-US", {
+          month: "short", day: "numeric", year: "numeric",
+          hour: "numeric", minute: "2-digit"
+        });
+      })
+      .catch(function(err) {
+        document.getElementById("lastUpdated").textContent = "Failed to load";
+        document.getElementById("errorMsg").style.display = "block";
+        document.getElementById("errorMsg").textContent =
+          "Could not load shift data. Make sure the sheet is published to the web. Error: " + err.message;
+        console.error(err);
+      });
+  }
+
+  function updateStats() {
+    var total  = allShifts.length;
+    var filled = allShifts.filter(function(s) { return s.status === "FILLED"; }).length;
+    var open   = allShifts.filter(function(s) { return s.status === "OPEN"; }).length;
+
+    document.getElementById("totalCount").textContent  = total;
+    document.getElementById("filledCount").textContent = filled;
+    document.getElementById("openCount").textContent   = open;
+
+    var banner = document.getElementById("alertBanner");
+    if (open > 0) {
+      banner.style.display = "flex";
+      document.getElementById("alertText").textContent =
+        open + " shift" + (open > 1 ? "s are" : " is") +
+        " currently OPEN and need" + (open === 1 ? "s" : "") + " coverage!";
+    } else {
+      banner.style.display = "none";
+    }
+  }
+
+  function renderTable() {
+    var search   = document.getElementById("searchInput").value.toLowerCase();
+    var filter   = document.getElementById("statusFilter").value;
+    var container = document.getElementById("tableContainer");
+
+    var filtered = allShifts.filter(function(s) {
+      var matchSearch = (s.date + s.block + s.name + s.phone).toLowerCase().includes(search);
+      var matchStatus = filter === "ALL" || s.status === filter;
+      return matchSearch && matchStatus;
+    });
+
+    if (filtered.length === 0) {
+      container.innerHTML = '<div class="loading">No shifts found.</div>';
+      return;
+    }
+
+    var rows = filtered.map(function(s) {
+      var isOpen = s.status === "OPEN";
+      return '<tr class="' + (isOpen ? "open-row" : "") + '">' +
+        '<td>' + s.date + '</td>' +
+        '<td>' + s.block + '</td>' +
+        '<td>' + (s.name || '<em style="color:#999">Unassigned</em>') + '</td>' +
+        '<td>' + (s.phone || '—') + '</td>' +
+        '<td><span class="badge ' + s.status.toLowerCase() + '">' + s.status + '</span></td>' +
+        '</tr>';
+    }).join('');
+
+    container.innerHTML =
+      '<table>' +
+        '<thead><tr>' +
+          '<th>Date</th><th>Block</th><th>Assigned Name</th><th>Phone</th><th>Status</th>' +
+        '</tr></thead>' +
+        '<tbody>' + rows + '</tbody>' +
+      '</table>';
+  }
+
+  // Load on page open
+  loadData();
+
+  // Auto-refresh every 5 minutes
+  setInterval(loadData, 5 * 60 * 1000);
+</script>
+
+</body>
+</html>
