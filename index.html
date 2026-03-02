@@ -274,8 +274,15 @@
       var shiftDate = new Date(dateVal);
       if (isNaN(shiftDate) || shiftDate < today) continue;
 
+      // Add day of week to date
+      var dayStr = "";
+      try {
+        var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        dayStr = days[shiftDate.getDay()] + ", ";
+      } catch(e) {}
+
       shifts.push({
-        date:   dateVal,
+        date:   dayStr + dateVal,
         block:  cols[1] ? cols[1].trim().replace(/"/g, "") : "",
         name:   cols[2] ? cols[2].trim().replace(/"/g, "") : "",
         phone:  cols[3] ? cols[3].trim().replace(/"/g, "") : "",
