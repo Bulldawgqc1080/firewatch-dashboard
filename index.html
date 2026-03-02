@@ -44,7 +44,8 @@
       border-top: 4px solid #1B2A4A;
     }
 
-    .stat-card.open { border-top-color: #C0392B; }
+    .stat-card.open    { border-top-color: #C0392B; }
+    .stat-card.percent { border-top-color: #2E7D32; }
 
     .stat-card .number {
       font-size: 42px;
@@ -53,7 +54,8 @@
       line-height: 1;
     }
 
-    .stat-card.open .number { color: #C0392B; }
+    .stat-card.open .number    { color: #C0392B; }
+    .stat-card.percent .number { color: #2E7D32; font-size: 36px; }
 
     .stat-card .label {
       font-size: 13px;
@@ -141,6 +143,17 @@
 
     tbody tr.open-row td { color: #C0392B; font-weight: 600; }
 
+    /* Pulse animation for first open row */
+    @keyframes pulse-highlight {
+      0%   { box-shadow: 0 0 0 0 rgba(192,57,43,0.4); }
+      70%  { box-shadow: 0 0 0 10px rgba(192,57,43,0); }
+      100% { box-shadow: 0 0 0 0 rgba(192,57,43,0); }
+    }
+
+    tbody tr.open-row.pulse-row {
+      animation: pulse-highlight 1.5s ease 3;
+    }
+
     .loading {
       text-align: center;
       padding: 60px;
@@ -177,6 +190,8 @@
       table { width: calc(100% - 32px); margin: 0 16px 24px; }
       .filters { padding: 0 16px 16px; }
       .alert-banner { margin: 0 16px 16px; }
+      thead th:nth-child(5) { display: none; }
+      tbody td:nth-child(5) { display: none; }
     }
   </style>
 </head>
@@ -207,6 +222,10 @@
   <div class="stat-card open">
     <div class="number" id="openCount">—</div>
     <div class="label">Open</div>
+  </div>
+  <div class="stat-card percent">
+    <div class="number" id="percentCount">—</div>
+    <div class="label">Coverage</div>
   </div>
 </div>
 
@@ -243,38 +262,24 @@
 
   var allShifts = [];
 
-  // Parse CSV text into array of objects
-  // GM View layout:
-  //   Row 1  — Title (merged)
-  //   Row 2  — Last Updated (merged)
-  //   Row 3  — blank
-  //   Row 4  — Stats headers (Total Shifts / Filled / Open)
-  //   Row 5  — Stats numbers
-  //   Row 6  — blank
-  //   Row 7  — Column headers (Date / Block / Assigned Name / Phone / Status)
-  //   Row 8+ — Shift data
   function parseCSV(text) {
     var lines  = text.trim().split("\n");
     var shifts = [];
     var today  = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // Skip first 7 rows (summary + column header row), start from index 7
     for (var i = 7; i < lines.length; i++) {
       var cols = splitCSVLine(lines[i]);
       if (cols.length < 5) continue;
 
-      // GM View columns: Date(0), Block(1), Assigned Name(2), Phone(3), Status(4)
       var dateVal = cols[0] ? cols[0].trim().replace(/"/g, "") : "";
       var status  = cols[4] ? cols[4].trim().replace(/"/g, "").toUpperCase() : "";
 
       if (!dateVal || !status) continue;
 
-      // Skip past dates (dates already formatted as "Mar 1, 2026")
       var shiftDate = new Date(dateVal);
       if (isNaN(shiftDate) || shiftDate < today) continue;
 
-      // Add day of week to date
       var dayStr = "";
       try {
         var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -293,7 +298,6 @@
     return shifts;
   }
 
-  // Handle CSV fields that may be quoted (e.g. "Mar 1, 2026" with commas)
   function splitCSVLine(line) {
     var result = [], current = "", inQuotes = false;
     for (var c = 0; c < line.length; c++) {
@@ -310,7 +314,6 @@
     document.getElementById("lastUpdated").textContent = "Refreshing...";
     document.getElementById("errorMsg").style.display = "none";
 
-    // Add cache-busting timestamp
     var url = CSV_URL + "&t=" + Date.now();
 
     fetch(url)
@@ -340,10 +343,12 @@
     var total  = allShifts.length;
     var filled = allShifts.filter(function(s) { return s.status === "FILLED"; }).length;
     var open   = allShifts.filter(function(s) { return s.status === "OPEN"; }).length;
+    var pct    = total > 0 ? Math.round((filled / total) * 100) : 0;
 
-    document.getElementById("totalCount").textContent  = total;
-    document.getElementById("filledCount").textContent = filled;
-    document.getElementById("openCount").textContent   = open;
+    document.getElementById("totalCount").textContent   = total;
+    document.getElementById("filledCount").textContent  = filled;
+    document.getElementById("openCount").textContent    = open;
+    document.getElementById("percentCount").textContent = pct + "%";
 
     var banner = document.getElementById("alertBanner");
     if (open > 0) {
@@ -357,9 +362,10 @@
   }
 
   function renderTable() {
-    var search   = document.getElementById("searchInput").value.toLowerCase();
-    var filter   = document.getElementById("statusFilter").value;
+    var search    = document.getElementById("searchInput").value.toLowerCase();
+    var filter    = document.getElementById("statusFilter").value;
     var container = document.getElementById("tableContainer");
+    var firstOpen = true;
 
     var filtered = allShifts.filter(function(s) {
       var matchSearch = (s.date + s.block + s.name + s.phone).toLowerCase().includes(search);
@@ -374,7 +380,15 @@
 
     var rows = filtered.map(function(s) {
       var isOpen = s.status === "OPEN";
-      return '<tr class="' + (isOpen ? "open-row" : "") + '">' +
+      // Add pulse class and id to the first open row
+      var rowClass = isOpen ? "open-row" : "";
+      var rowId    = "";
+      if (isOpen && firstOpen) {
+        rowClass  += " pulse-row";
+        rowId      = ' id="firstOpenRow"';
+        firstOpen  = false;
+      }
+      return '<tr class="' + rowClass + '"' + rowId + '>' +
         '<td>' + s.date + '</td>' +
         '<td>' + s.block + '</td>' +
         '<td>' + (isOpen ? '<a href="https://www.signupgenius.com/go/10C054FA9AC23A0F4C43-56532553-wctfire" target="_blank" style="display:inline-block;background:#C0392B;color:white;font-weight:700;text-decoration:none;padding:5px 14px;border-radius:5px;font-size:13px;">Sign Up →</a>' : s.name) + '</td>' +
