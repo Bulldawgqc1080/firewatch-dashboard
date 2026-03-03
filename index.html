@@ -343,7 +343,7 @@
     var total  = allShifts.length;
     var filled = allShifts.filter(function(s) { return s.status === "FILLED"; }).length;
     var open   = allShifts.filter(function(s) { return s.status === "OPEN"; }).length;
-    var pct    = total > 0 ? Math.round((filled / total) * 100) : 0;
+    var pct    = total > 0 ? ((filled / total) * 100).toFixed(1) : "0.0";
 
     document.getElementById("totalCount").textContent   = total;
     document.getElementById("filledCount").textContent  = filled;
