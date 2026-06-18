@@ -1,741 +1,521 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SiteCheck Pro — Website Audits for Local Businesses</title>
-<meta name="description" content="Get a professional website audit with actionable fixes. Built for local small businesses. $197 flat rate, delivered in 48 hours.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fire Watch Coverage — Mercy Gilbert WCT</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --navy: #0D1B2A;
-    --navy2: #1B3A5C;
-    --gold: #E8A020;
-    --gold-light: #F5C96A;
-    --cream: #FAF7F2;
-    --white: #FFFFFF;
-    --gray: #8A9BB0;
-    --text: #1a2a3a;
-    --red: #C0392B;
-    --green: #1E8449;
-    --yellow: #D4A017;
-    --border: #DDE3EA;
-  }
+    :root {
+      --bg:        #0D1117;
+      --surface:   #161B22;
+      --surface2:  #21262D;
+      --border:    #30363D;
+      --text:      #E6EDF3;
+      --muted:     #8B949E;
+      --red:       #F85149;
+      --red-dim:   rgba(248,81,73,0.15);
+      --green:     #3FB950;
+      --green-dim: rgba(63,185,80,0.12);
+      --blue:      #58A6FF;
+      --blue-dim:  rgba(88,166,255,0.12);
+      --accent:    #FF6B35;
+    }
 
-  html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
-    color: var(--text);
-    overflow-x: hidden;
-  }
+    /* ── HEADER ── */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-  /* ── NAV ── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 5vw;
-    height: 64px;
-    background: rgba(13,27,42,0.97);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255,255,255,0.07);
-  }
-  .nav-logo {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.25rem;
-    color: var(--white);
-    text-decoration: none;
-    letter-spacing: -0.02em;
-  }
-  .nav-logo span { color: var(--gold); }
-  .nav-cta {
-    background: var(--gold);
-    color: var(--navy);
-    font-weight: 600;
-    font-size: 0.85rem;
-    padding: 10px 20px;
-    border-radius: 6px;
-    text-decoration: none;
-    letter-spacing: 0.02em;
-    transition: background 0.2s, transform 0.1s;
-  }
-  .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .header-left { display: flex; align-items: center; gap: 14px; }
 
-  /* ── HERO ── */
-  .hero {
-    min-height: 100vh;
-    background: var(--navy);
-    display: flex; align-items: center;
-    padding: 100px 5vw 80px;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse 60% 50% at 70% 50%, rgba(232,160,32,0.08) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .hero-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    max-width: 1100px;
-    margin: 0 auto;
-    width: 100%;
-    align-items: center;
-  }
-  .hero-eyebrow {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(232,160,32,0.12);
-    border: 1px solid rgba(232,160,32,0.25);
-    color: var(--gold);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 6px 14px;
-    border-radius: 100px;
-    margin-bottom: 28px;
-  }
-  .hero-eyebrow::before { content: '●'; font-size: 0.5rem; }
-  h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(2.4rem, 4vw, 3.6rem);
-    line-height: 1.1;
-    color: var(--white);
-    letter-spacing: -0.03em;
-    margin-bottom: 24px;
-  }
-  h1 em {
-    font-style: italic;
-    color: var(--gold);
-  }
-  .hero-sub {
-    font-size: 1.1rem;
-    line-height: 1.7;
-    color: rgba(255,255,255,0.65);
-    margin-bottom: 40px;
-    max-width: 480px;
-  }
-  .hero-actions { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
-  .btn-primary {
-    background: var(--gold);
-    color: var(--navy);
-    font-weight: 600;
-    font-size: 1rem;
-    padding: 16px 32px;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-    box-shadow: 0 4px 24px rgba(232,160,32,0.3);
-  }
-  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(232,160,32,0.4); }
-  .btn-ghost {
-    color: rgba(255,255,255,0.7);
-    font-size: 0.9rem;
-    text-decoration: none;
-    display: flex; align-items: center; gap: 6px;
-    transition: color 0.2s;
-  }
-  .btn-ghost:hover { color: var(--white); }
-  .btn-ghost::after { content: '↓'; }
+    .fire-icon {
+      font-size: 32px;
+      filter: drop-shadow(0 0 8px rgba(255,107,53,0.6));
+    }
 
-  /* HERO CARD */
-  .hero-card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 16px;
-    padding: 32px;
-    position: relative;
-  }
-  .hero-card-label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--gray);
-    margin-bottom: 20px;
-  }
-  .score-row {
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
-    margin-bottom: 20px;
-  }
-  .score-item {
-    background: rgba(255,255,255,0.05);
-    border-radius: 10px;
-    padding: 14px 16px;
-    border: 1px solid rgba(255,255,255,0.08);
-  }
-  .score-num { font-family: 'DM Serif Display', serif; font-size: 2rem; line-height: 1; margin-bottom: 4px; }
-  .score-num.red { color: #E74C3C; }
-  .score-num.yellow { color: var(--gold); }
-  .score-num.green { color: #27AE60; }
-  .score-cat { font-size: 0.75rem; color: rgba(255,255,255,0.5); font-weight: 500; }
-  .hero-card-finding {
-    background: rgba(232,160,32,0.08);
-    border-left: 3px solid var(--gold);
-    border-radius: 0 8px 8px 0;
-    padding: 12px 16px;
-    font-size: 0.85rem;
-    color: rgba(255,255,255,0.75);
-    line-height: 1.5;
-  }
-  .hero-card-finding strong { color: var(--gold); }
-  .hero-badge {
-    position: absolute; top: -14px; right: 24px;
-    background: var(--gold);
-    color: var(--navy);
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 5px 14px;
-    border-radius: 100px;
-  }
+    header h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.3px;
+    }
 
-  /* ── TRUST BAR ── */
-  .trust-bar {
-    background: var(--white);
-    border-bottom: 1px solid var(--border);
-    padding: 20px 5vw;
-    display: flex; align-items: center; justify-content: center;
-    gap: clamp(24px, 4vw, 60px);
-    flex-wrap: wrap;
-  }
-  .trust-item {
-    display: flex; align-items: center; gap: 10px;
-    font-size: 0.85rem;
-    color: var(--gray);
-    font-weight: 500;
-  }
-  .trust-icon { font-size: 1.1rem; }
+    header p { font-size: 13px; color: var(--muted); margin-top: 3px; }
 
-  /* ── SECTIONS ── */
-  section { padding: 100px 5vw; }
-  .section-inner { max-width: 1100px; margin: 0 auto; }
-  .section-eyebrow {
-    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em;
-    text-transform: uppercase; color: var(--gold);
-    margin-bottom: 16px;
-  }
-  h2 {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(2rem, 3vw, 2.8rem);
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    color: var(--navy);
-    margin-bottom: 16px;
-  }
-  .section-sub {
-    font-size: 1.05rem;
-    line-height: 1.7;
-    color: #556070;
-    max-width: 560px;
-    margin-bottom: 60px;
-  }
+    .header-right { text-align: right; }
+    .last-updated-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; }
+    .last-updated-time  { font-size: 13px; color: var(--text); font-weight: 600; margin-top: 2px; }
 
-  /* ── WHAT YOU GET ── */
-  .what-you-get { background: var(--white); }
-  .checks-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 24px;
-  }
-  .check-card {
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 28px;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  .check-card:hover { border-color: var(--gold); box-shadow: 0 4px 20px rgba(232,160,32,0.1); }
-  .check-icon {
-    width: 44px; height: 44px;
-    background: rgba(232,160,32,0.1);
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.2rem;
-    margin-bottom: 16px;
-  }
-  .check-card h3 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.15rem;
-    color: var(--navy);
-    margin-bottom: 8px;
-  }
-  .check-card p { font-size: 0.9rem; line-height: 1.6; color: #556070; }
+    .refresh-btn {
+      margin-top: 8px;
+      padding: 6px 14px;
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.15s, border-color 0.15s;
+    }
 
-  /* ── SAMPLE FINDINGS ── */
-  .sample-findings { background: var(--cream); }
-  .findings-list { display: flex; flex-direction: column; gap: 16px; max-width: 720px; }
-  .finding-row {
-    display: flex; gap: 16px; align-items: flex-start;
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 20px;
-    animation: fadeUp 0.5s ease both;
-  }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-  .finding-row:nth-child(1) { animation-delay: 0.1s; }
-  .finding-row:nth-child(2) { animation-delay: 0.2s; }
-  .finding-row:nth-child(3) { animation-delay: 0.3s; }
-  .finding-row:nth-child(4) { animation-delay: 0.4s; }
-  .finding-badge {
-    flex-shrink: 0;
-    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em;
-    text-transform: uppercase; color: var(--white);
-    padding: 4px 10px; border-radius: 4px;
-    margin-top: 2px;
-  }
-  .badge-critical { background: var(--red); }
-  .badge-warning  { background: var(--yellow); }
-  .badge-good     { background: var(--green); }
-  .finding-content h4 { font-size: 0.95rem; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
-  .finding-content p  { font-size: 0.85rem; line-height: 1.55; color: #556070; }
-  .finding-fix {
-    margin-top: 10px;
-    background: #EAF4EA;
-    border-left: 3px solid var(--green);
-    border-radius: 0 6px 6px 0;
-    padding: 10px 14px;
-    font-size: 0.82rem;
-    color: #1a4a1a;
-    line-height: 1.5;
-  }
-  .findings-note {
-    margin-top: 24px;
-    font-size: 0.85rem;
-    color: var(--gray);
-    font-style: italic;
-  }
+    .refresh-btn:hover { background: var(--border); border-color: var(--muted); }
 
-  /* ── HOW IT WORKS ── */
-  .how-it-works { background: var(--navy); }
-  .how-it-works h2 { color: var(--white); }
-  .how-it-works .section-sub { color: rgba(255,255,255,0.5); }
-  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0; position: relative; }
-  .steps::before {
-    content: '';
-    position: absolute; top: 28px; left: 10%; right: 10%; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(232,160,32,0.3), transparent);
-  }
-  .step { padding: 0 24px; text-align: center; }
-  .step-num {
-    width: 56px; height: 56px;
-    background: rgba(232,160,32,0.1);
-    border: 1px solid rgba(232,160,32,0.3);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.4rem;
-    color: var(--gold);
-    margin: 0 auto 20px;
-    position: relative; z-index: 1;
-    background: var(--navy);
-  }
-  .step h3 { font-size: 1rem; font-weight: 600; color: var(--white); margin-bottom: 10px; }
-  .step p { font-size: 0.85rem; line-height: 1.6; color: rgba(255,255,255,0.45); }
+    /* ── STAT CARDS ── */
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      padding: 24px 30px 8px;
+    }
 
-  /* ── PRICING ── */
-  .pricing { background: var(--cream); }
-  .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; max-width: 1100px; }
-  .pricing-card {
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 36px;
-    background: var(--white);
-    position: relative;
-  }
-  .pricing-card.featured {
-    border-color: var(--gold);
-    box-shadow: 0 8px 40px rgba(232,160,32,0.15);
-  }
-  .pricing-card.featured::before {
-    content: 'MOST POPULAR';
-    position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
-    background: var(--gold); color: var(--navy);
-    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
-    padding: 4px 16px; border-radius: 100px;
-  }
-  .pricing-name { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray); margin-bottom: 12px; }
-  .pricing-price {
-    font-family: 'DM Serif Display', serif;
-    font-size: 3rem; color: var(--navy); line-height: 1;
-    margin-bottom: 6px;
-  }
-  .pricing-price span { font-family: 'DM Sans', sans-serif; font-size: 1.2rem; font-weight: 300; vertical-align: top; margin-top: 8px; display: inline-block; }
-  .pricing-desc { font-size: 0.85rem; color: var(--gray); margin-bottom: 28px; line-height: 1.5; }
-  .pricing-items { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
-  .pricing-items li {
-    font-size: 0.875rem; color: #445566;
-    display: flex; align-items: flex-start; gap: 10px; line-height: 1.5;
-  }
-  .pricing-items li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
-  .btn-pricing {
-    display: block; text-align: center; text-decoration: none;
-    padding: 14px; border-radius: 8px;
-    font-weight: 600; font-size: 0.95rem;
-    transition: all 0.2s;
-  }
-  .btn-pricing-primary { background: var(--gold); color: var(--navy); box-shadow: 0 4px 16px rgba(232,160,32,0.25); }
-  .btn-pricing-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
-  .btn-pricing-secondary { background: transparent; color: var(--navy); border: 1.5px solid var(--border); }
-  .btn-pricing-secondary:hover { border-color: var(--navy); }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
 
-  /* ── FAQ ── */
-  .faq { background: var(--white); }
-  .faq-list { max-width: 680px; display: flex; flex-direction: column; gap: 0; }
-  .faq-item { border-bottom: 1px solid var(--border); padding: 24px 0; }
-  .faq-item:first-child { border-top: 1px solid var(--border); }
-  .faq-q { font-size: 1rem; font-weight: 600; color: var(--navy); margin-bottom: 10px; }
-  .faq-a { font-size: 0.9rem; line-height: 1.7; color: #556070; }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--blue);
+      border-radius: 12px 12px 0 0;
+    }
 
-  /* ── CTA SECTION ── */
-  .cta-section {
-    background: var(--navy);
-    text-align: center;
-    padding: 100px 5vw;
-  }
-  .cta-section h2 { color: var(--white); margin: 0 auto 16px; max-width: 600px; }
-  .cta-section p { color: rgba(255,255,255,0.55); max-width: 480px; margin: 0 auto 40px; font-size: 1rem; line-height: 1.7; }
+    .stat-card.open::before    { background: var(--red); }
+    .stat-card.percent::before { background: var(--green); }
+    .stat-card.filled::before  { background: var(--blue); }
 
-  /* ── FOOTER ── */
-  footer {
-    background: #060f18;
-    padding: 40px 5vw;
-    display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: 16px;
-    border-top: 1px solid rgba(255,255,255,0.05);
-  }
-  .footer-logo { font-family: 'DM Serif Display', serif; color: rgba(255,255,255,0.4); font-size: 1rem; }
-  .footer-logo span { color: rgba(232,160,32,0.5); }
-  footer p { font-size: 0.8rem; color: rgba(255,255,255,0.2); }
+    .stat-card:hover { border-color: var(--muted); }
 
-  /* ── RESPONSIVE ── */
+    .stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 10px;
+    }
 
-  .zelle-note {
-    background: #F0F7FF;
-    border: 1px solid #BDD4EE;
-    border-radius: 6px;
-    padding: 10px 14px;
-    font-size: 0.82rem;
-    color: #2C5F8A;
-    margin-bottom: 20px;
-  }
-  .btn-download {
-    display: inline-flex; align-items: center; gap: 10px;
-    margin-top: 28px;
-    background: var(--navy);
-    color: var(--white);
-    text-decoration: none;
-    padding: 14px 28px;
-    border-radius: 8px;
-    font-weight: 500;
-    font-size: 0.9rem;
-    transition: background 0.2s, transform 0.15s;
-  }
-  .btn-download:hover { background: var(--navy2); transform: translateY(-1px); }
+    .stat-number {
+      font-size: 40px;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--text);
+    }
 
-  @media (max-width: 768px) {
-    .hero-grid { grid-template-columns: 1fr; gap: 48px; }
-    .hero-card { display: none; }
-    .pricing-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
-    .steps::before { display: none; }
-    nav .nav-cta { font-size: 0.78rem; padding: 8px 14px; }
-  }
-</style>
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"LocalBusiness","name":"SiteCheck Pro","url":"https://websitecheckpro.com","email":"bulldawgqc@gmail.com","description":"Professional website audits for local small businesses in Gilbert, Queen Creek, and Chandler Arizona.","areaServed":["Gilbert","Queen Creek","Chandler","San Tan Valley"],"serviceType":["Website Audit","SEO Audit","Website Design"]}
-</script>
+    .stat-card.open .stat-number    { color: var(--red); }
+    .stat-card.percent .stat-number { color: var(--green); font-size: 32px; }
+
+    /* ── ALERT BANNER ── */
+    .alert-banner {
+      margin: 16px 30px;
+      background: var(--red-dim);
+      border: 1px solid var(--red);
+      border-radius: 10px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--red);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(1.3); }
+    }
+
+    .pulse-dot {
+      width: 10px; height: 10px;
+      background: var(--red);
+      border-radius: 50%;
+      animation: pulse-dot 1.2s ease infinite;
+      flex-shrink: 0;
+    }
+
+    /* ── TELEGRAM BANNER ── */
+    .telegram-banner {
+      margin: 0 30px 16px;
+      background: var(--blue-dim);
+      border: 1px solid rgba(88,166,255,0.3);
+      border-radius: 10px;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .telegram-banner a {
+      color: var(--blue);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .telegram-banner a:hover { text-decoration: underline; }
+
+    /* ── FILTERS ── */
+    .filters {
+      padding: 0 30px 16px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .filters input, .filters select {
+      padding: 8px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .filters input::placeholder { color: var(--muted); }
+    .filters input:focus, .filters select:focus { border-color: var(--blue); }
+    .filters input { width: 220px; }
+    .filters select option { background: var(--surface2); }
+
+    /* ── TABLE ── */
+    .table-wrap {
+      margin: 0 30px 30px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    table { width: 100%; border-collapse: collapse; }
+
+    thead tr { background: var(--surface2); }
+
+    thead th {
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--surface2); }
+
+    tbody tr.open-row { background: var(--red-dim); }
+    tbody tr.open-row:hover { background: rgba(248,81,73,0.2); }
+
+    tbody td {
+      padding: 12px 16px;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    tbody tr.open-row td { color: var(--red); font-weight: 600; }
+
+    /* ── BADGES ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge.open   { background: var(--red-dim);   color: var(--red);   border: 1px solid rgba(248,81,73,0.3); }
+    .badge.filled { background: var(--green-dim);  color: var(--green); border: 1px solid rgba(63,185,80,0.3); }
+
+    /* ── SIGN UP BUTTON ── */
+    .signup-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent);
+      color: white;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+
+    .signup-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+
+    /* ── LOADING / ERROR ── */
+    .loading {
+      text-align: center;
+      padding: 60px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .error-msg {
+      margin: 0 30px 20px;
+      background: rgba(255,193,7,0.1);
+      border: 1px solid rgba(255,193,7,0.4);
+      border-radius: 10px;
+      padding: 14px 20px;
+      color: #FFC107;
+      font-size: 14px;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 600px) {
+      header { flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 12px; padding: 16px; width: 100%; }
+      .header-left { justify-content: center; width: 100%; }
+      .header-right { text-align: center; display: flex; flex-direction: column; align-items: center; width: 100%; }
+      .last-updated-label { text-align: center; }
+      .last-updated-time  { text-align: center; }
+      .summary { grid-template-columns: repeat(2, 1fr); padding: 16px 16px 8px; }
+      .table-wrap { margin: 0 16px 24px; }
+      .filters { padding: 0 16px 16px; }
+      .alert-banner, .telegram-banner { margin: 0 16px 16px; }
+      thead th:nth-child(5) { display: none; }
+      tbody td:nth-child(5) { display: none; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-logo">Site<span>Check</span> Pro</a>
-  <a href="#pricing" class="nav-cta">Get My Audit — $197</a>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-grid">
-    <div class="hero-left">
-      <div class="hero-eyebrow">Website Audits for Local Businesses</div>
-      <h1>Your website is <em>losing you</em> customers. Let's fix that.</h1>
-      <p class="hero-sub">
-        A professional audit of your website — SEO gaps, speed issues, conversion problems, and exactly how to fix each one. Delivered as a clear PDF report in 48 hours.
-      </p>
-      <div class="hero-actions">
-        <a href="#pricing" class="btn-primary">Get My Audit — $197</a>
-        <a href="#how-it-works" class="btn-ghost">See how it works</a>
-      </div>
-    </div>
-    <div class="hero-right">
-      <div class="hero-card">
-        <div class="hero-badge">Sample Report</div>
-        <div class="hero-card-label">PageSpeed Scores — Sample Client</div>
-        <div class="score-row">
-          <div class="score-item">
-            <div class="score-num yellow">75</div>
-            <div class="score-cat">Performance</div>
-          </div>
-          <div class="score-item">
-            <div class="score-num yellow">85</div>
-            <div class="score-cat">Accessibility</div>
-          </div>
-          <div class="score-item">
-            <div class="score-num green">100</div>
-            <div class="score-cat">Best Practices</div>
-          </div>
-          <div class="score-item">
-            <div class="score-num green">92</div>
-            <div class="score-cat">SEO</div>
-          </div>
-        </div>
-        <div class="hero-card-finding">
-          <strong>Critical finding:</strong> No call-to-action button above the fold. Visitors land on a beautiful site with no obvious next step — booking inquiries are being lost.
-        </div>
-      </div>
+<header>
+  <div class="header-left">
+    <span class="fire-icon">🔥</span>
+    <div>
+      <h1>Fire Watch Coverage</h1>
+      <p>Mercy Gilbert WCT Project</p>
     </div>
   </div>
-</section>
+  <div class="header-right">
+    <div class="last-updated-label">Last Updated</div>
+    <div class="last-updated-time" id="lastUpdated">Loading...</div>
+    <button class="refresh-btn" onclick="loadData()">↻ Refresh</button>
+  </div>
+</header>
 
-<!-- TRUST BAR -->
-<div class="trust-bar">
-  <div class="trust-item"><span class="trust-icon">📄</span> Detailed PDF report</div>
-  <div class="trust-item"><span class="trust-icon">⚡</span> Delivered in 48 hours</div>
-  <div class="trust-item"><span class="trust-icon">🔧</span> Step-by-step fix instructions</div>
-  <div class="trust-item"><span class="trust-icon">📍</span> Built for local businesses</div>
-  <div class="trust-item"><span class="trust-icon">💯</span> No technical jargon</div>
+<div class="summary">
+  <div class="stat-card">
+    <div class="stat-label">Total Shifts</div>
+    <div class="stat-number" id="totalCount">—</div>
+  </div>
+  <div class="stat-card filled">
+    <div class="stat-label">Filled</div>
+    <div class="stat-number" id="filledCount">—</div>
+  </div>
+  <div class="stat-card open">
+    <div class="stat-label">Open</div>
+    <div class="stat-number" id="openCount">—</div>
+  </div>
+  <div class="stat-card percent">
+    <div class="stat-label">Coverage</div>
+    <div class="stat-number" id="percentCount">—</div>
+  </div>
 </div>
 
-<!-- WHAT YOU GET -->
-<section class="what-you-get" id="what-you-get">
-  <div class="section-inner">
-    <div class="section-eyebrow">What's included</div>
-    <h2>Every audit covers six areas</h2>
-    <p class="section-sub">We look at everything that affects whether your website shows up in search and whether visitors actually contact you.</p>
-    <div class="checks-grid">
-      <div class="check-card">
-        <div class="check-icon">🔍</div>
-        <h3>SEO & Discoverability</h3>
-        <p>Meta descriptions, schema markup, heading structure, keyword signals, and local search visibility — what Google sees when it looks at your site.</p>
-      </div>
-      <div class="check-card">
-        <div class="check-icon">⚡</div>
-        <h3>Speed & Performance</h3>
-        <p>Google PageSpeed scores for both mobile and desktop, image optimization, render-blocking scripts, and what's slowing your site down.</p>
-      </div>
-      <div class="check-card">
-        <div class="check-icon">📲</div>
-        <h3>Conversion & UX</h3>
-        <p>Call-to-action placement, contact options, pricing signals, and whether visitors know what to do when they land on your site.</p>
-      </div>
-      <div class="check-card">
-        <div class="check-icon">♿</div>
-        <h3>Accessibility</h3>
-        <p>Mobile zoom settings, touch target sizes, color contrast, and screen reader compatibility — issues that affect both users and Google rankings.</p>
-      </div>
-      <div class="check-card">
-        <div class="check-icon">🔒</div>
-        <h3>Technical Health</h3>
-        <p>SSL certificate, WordPress version exposure, unused code, security headers, and other technical issues that affect performance and trust.</p>
-      </div>
-      <div class="check-card">
-        <div class="check-icon">⭐</div>
-        <h3>Trust & Brand Signals</h3>
-        <p>Reviews, Google Business Profile, social proof placement, contact information, and brand consistency across the site.</p>
-      </div>
-    </div>
+<div id="alertBanner" style="display:none" class="alert-banner">
+  <div class="pulse-dot"></div>
+  <span id="alertText"></span>
+</div>
+
+<div id="errorMsg" style="display:none" class="error-msg"></div>
+
+<div class="telegram-banner">
+  <span style="font-size:20px;">📲</span>
+  <span>Want alerts when shifts open up? <a href="https://t.me/+fPm9B-djtURlMjEx" target="_blank">Join our Telegram group →</a></span>
+</div>
+
+<div class="filters">
+  <input type="text" id="searchInput" placeholder="Search name, date, block..." oninput="renderTable()">
+  <select id="statusFilter" onchange="renderTable()">
+    <option value="ALL">All Shifts</option>
+    <option value="OPEN">Open Only</option>
+    <option value="FILLED">Filled Only</option>
+  </select>
+</div>
+
+<div id="tableContainer">
+  <div class="table-wrap">
+    <div class="loading">Loading shift data...</div>
   </div>
-</section>
+</div>
 
-<!-- SAMPLE FINDINGS -->
-<section class="sample-findings" id="sample">
-  <div class="section-inner">
-    <div class="section-eyebrow">Real findings, real fixes</div>
-    <h2>Not just problems — solutions</h2>
-    <p class="section-sub">Every finding comes with a plain-English explanation and step-by-step instructions to fix it yourself. No technical degree required.</p>
-    <div class="findings-list">
-      <div class="finding-row">
-        <span class="finding-badge badge-critical">Critical</span>
-        <div class="finding-content">
-          <h4>No meta description on homepage</h4>
-          <p>Google writes its own snippet when this is missing, resulting in lower click-through rates from search results.</p>
-          <div class="finding-fix">
-            <strong>Fix:</strong> Go to your SEO plugin (Yoast or RankMath) → Edit homepage snippet → Paste in the pre-written description we provide. Takes 5 minutes.
-          </div>
-        </div>
-      </div>
-      <div class="finding-row">
-        <span class="finding-badge badge-critical">Critical</span>
-        <div class="finding-content">
-          <h4>No call-to-action button above the fold</h4>
-          <p>Visitors land on your site with no obvious next step. They have to scroll before they can find out how to contact you.</p>
-          <div class="finding-fix">
-            <strong>Fix:</strong> Add a "Book Now" or "Contact Us" button to your hero section, linked to your contact page. We show you exactly where in your theme editor.
-          </div>
-        </div>
-      </div>
-      <div class="finding-row">
-        <span class="finding-badge badge-warning">Warning</span>
-        <div class="finding-content">
-          <h4>Mobile performance score: 56/100</h4>
-          <p>Google's mobile simulation flags slow image loading and render-blocking scripts. This affects your search ranking even if your site feels fast on your own phone.</p>
-          <div class="finding-fix">
-            <strong>Fix:</strong> Install a free image compression plugin (Smush or ShortPixel) and enable lazy loading. We walk you through both steps.
-          </div>
-        </div>
-      </div>
-      <div class="finding-row">
-        <span class="finding-badge badge-good">Good</span>
-        <div class="finding-content">
-          <h4>SSL certificate active — Best Practices score: 100/100</h4>
-          <p>Site loads securely over HTTPS with no mixed content warnings. Perfect score on Google's Best Practices audit. No action needed.</p>
-        </div>
-      </div>
-    </div>
-    <p class="findings-note">* These are real findings from an actual audit. Your report will be specific to your site.</p>
-    <a href="sample_audit_report.pdf" class="btn-download" download>
-      📄 Download a Sample Report — See exactly what you'll receive
-    </a>
-  </div>
-</section>
+<script>
+  var CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTcnQp8oo56skIT_F1bv003wtLv5nhYVwYmVBcaRXVGKSPQPxNZ0l6QJ4xuzbCXUSLZ-c9cwRXKaPLW/pub?gid=2012597347&single=true&output=csv";
 
-<!-- HOW IT WORKS -->
-<section class="how-it-works" id="how-it-works">
-  <div class="section-inner">
-    <div class="section-eyebrow" style="color: rgba(232,160,32,0.7)">The process</div>
-    <h2>Simple. Fast. Actionable.</h2>
-    <p class="section-sub">From payment to PDF in 48 hours or less.</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <h3>You submit your URL</h3>
-        <p>Pay and fill out a short form with your website URL and business name. That's all we need.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <h3>We run the audit</h3>
-        <p>We analyze your site across six categories — SEO, speed, conversion, accessibility, technical health, and trust signals.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <h3>You get your report</h3>
-        <p>A detailed PDF lands in your inbox within 48 hours. Every finding includes a plain-English fix you can do yourself.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <h3>Fix it or let us</h3>
-        <p>Follow the instructions yourself, or upgrade to our Quick Wins Package and we'll handle every critical fix for you.</p>
-      </div>
-    </div>
-  </div>
-</section>
+  var allShifts = [];
 
-<!-- PRICING -->
-<section class="pricing" id="pricing">
-  <div class="section-inner">
-    <div class="section-eyebrow">Pricing</div>
-    <h2>Simple, flat-rate pricing</h2>
-    <p class="section-sub">No subscriptions. No surprise fees. Pay once, get your report.</p>
-    <div class="pricing-grid">
-      <div class="pricing-card">
-        <div class="pricing-name">Audit Report</div>
-        <div class="pricing-price"><span>$</span>197</div>
-        <p class="pricing-desc">Everything you need to understand what's holding your site back and how to fix it.</p>
-        <div class="zelle-note">💳 Pay via Zelle to bulldawgqc@gmail.com after submitting — audit starts once payment received.</div>
-        <ul class="pricing-items">
-          <li>Full 6-category website audit</li>
-          <li>Google PageSpeed scores (mobile + desktop)</li>
-          <li>Step-by-step fix instructions</li>
-          <li>Pre-written copy where applicable</li>
-          <li>Priority findings clearly labeled</li>
-          <li>Delivered within 48 hours</li>
-        </ul>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSf_5myfHUqSsML5ah8OcYcsFvTigPHYlkODW5jB-p1y-vb3aw/viewform" target="_blank" rel="noopener" class="btn-pricing btn-pricing-secondary">Request My Audit</a>
-      </div>
-      <div class="pricing-card featured">
-        <div class="pricing-name">Quick Wins Package</div>
-        <div class="pricing-price"><span>$</span>297</div>
-        <p class="pricing-desc">We run the audit AND fix every critical issue for you. You don't touch a thing.</p>
-        <div class="zelle-note">💳 Pay via Zelle to bulldawgqc@gmail.com after submitting — work starts once payment received.</div>
-        <ul class="pricing-items">
-          <li>Everything in Audit Report</li>
-          <li>We implement all critical fixes</li>
-          <li>Meta description written + installed</li>
-          <li>Schema markup added</li>
-          <li>CTA button added to hero</li>
-          <li>Confirmation when complete</li>
-        </ul>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSf_5myfHUqSsML5ah8OcYcsFvTigPHYlkODW5jB-p1y-vb3aw/viewform" target="_blank" rel="noopener" class="btn-pricing btn-pricing-primary">Get It Done — $297</a>
-      </div>
-      <div class="pricing-card" style="border-color: var(--navy2);">
-        <div class="pricing-name">Website Design</div>
-        <div class="pricing-price"><span>$</span>500<span style="font-size:1rem; font-weight:300;">+</span></div>
-        <p class="pricing-desc">Need a site built from scratch? We design clean, fast, mobile-friendly websites for local service businesses.</p>
-        <ul class="pricing-items">
-          <li>Custom one-page or multi-page site</li>
-          <li>Mobile responsive design</li>
-          <li>Contact form included</li>
-          <li>Google Business Profile setup</li>
-          <li>Basic SEO configuration</li>
-          <li>Delivered within 5 business days</li>
-        </ul>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSf_5myfHUqSsML5ah8OcYcsFvTigPHYlkODW5jB-p1y-vb3aw/viewform" target="_blank" rel="noopener" class="btn-pricing btn-pricing-secondary">Let's Talk</a>
-      </div>
-    </div>
-  </div>
-</section>
+  function parseCSV(text) {
+    var lines  = text.trim().split("\n");
+    var shifts = [];
+    var today  = new Date();
+    today.setHours(0, 0, 0, 0);
 
-<!-- FAQ -->
-<section class="faq" id="faq">
-  <div class="section-inner">
-    <div class="section-eyebrow">Questions</div>
-    <h2>Common questions</h2>
-    <div class="faq-list">
-      <div class="faq-item">
-        <div class="faq-q">What kind of businesses do you audit?</div>
-        <div class="faq-a">Any local small business with a website — photographers, contractors, restaurants, salons, real estate agents, fitness studios, and more. If you have a website and want more customers to find you, we can help.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Do I need to be technical to use the report?</div>
-        <div class="faq-a">No. Every finding includes plain-English instructions written for non-technical business owners. Most critical fixes are checkbox or copy-paste tasks in your website's admin panel. If you'd rather not touch anything, the Quick Wins Package has you covered.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">How long does it take?</div>
-        <div class="faq-a">You'll receive your PDF report within 48 hours of submitting your URL. Most reports are delivered same-day or next business day.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">What if I only have a Facebook page, not a website?</div>
-        <div class="faq-a">We audit websites only. If you're running your business entirely through Facebook, we'd actually recommend that as finding #1 — a simple website dramatically increases credibility and Google visibility.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">What platform does my site need to be on?</div>
-        <div class="faq-a">Any platform — WordPress, Squarespace, Wix, Shopify, Webflow, or custom-built. Our audit checks what visitors and Google actually see, not what's under the hood.</div>
-      </div>
-    </div>
-  </div>
-</section>
+    for (var i = 7; i < lines.length; i++) {
+      var cols = splitCSVLine(lines[i]);
+      if (cols.length < 5) continue;
 
-<!-- CTA -->
-<section class="cta-section">
-  <h2>Ready to see what your website is missing?</h2>
-  <p>A $197 audit gives local businesses a clear picture of what's holding their site back — with exact steps to fix it.</p>
-  <a href="https://docs.google.com/forms/d/e/1FAIpQLSf_5myfHUqSsML5ah8OcYcsFvTigPHYlkODW5jB-p1y-vb3aw/viewform" target="_blank" rel="noopener" class="btn-primary">Get My Audit — $197</a>
-</section>
+      var dateVal = cols[0] ? cols[0].trim().replace(/"/g, "") : "";
+      var status  = cols[4] ? cols[4].trim().replace(/"/g, "").toUpperCase() : "";
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo">Site<span>Check</span> Pro</div>
-  <p>© 2026 SiteCheck Pro. All rights reserved.</p>
-</footer>
+      if (!dateVal || !status) continue;
+
+      var shiftDate = new Date(dateVal);
+      if (isNaN(shiftDate) || shiftDate < today) continue;
+
+      var dayStr = "";
+      try {
+        var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        dayStr = days[shiftDate.getDay()] + ", ";
+      } catch(e) {}
+
+      shifts.push({
+        date:   dayStr + dateVal,
+        block:  cols[1] ? cols[1].trim().replace(/"/g, "") : "",
+        name:   cols[2] ? cols[2].trim().replace(/"/g, "") : "",
+        phone:  cols[3] ? cols[3].trim().replace(/"/g, "") : "",
+        status: status
+      });
+    }
+
+    return shifts;
+  }
+
+  function splitCSVLine(line) {
+    var result = [], current = "", inQuotes = false;
+    for (var c = 0; c < line.length; c++) {
+      var ch = line[c];
+      if (ch === '"') { inQuotes = !inQuotes; }
+      else if (ch === ',' && !inQuotes) { result.push(current); current = ""; }
+      else { current += ch; }
+    }
+    result.push(current);
+    return result;
+  }
+
+  function loadData() {
+    document.getElementById("lastUpdated").textContent = "Refreshing...";
+    document.getElementById("errorMsg").style.display = "none";
+
+    var url = CSV_URL + "&t=" + Date.now();
+
+    fetch(url)
+      .then(function(res) {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.text();
+      })
+      .then(function(text) {
+        allShifts = parseCSV(text);
+        updateStats();
+        renderTable();
+        document.getElementById("lastUpdated").textContent = new Date().toLocaleString("en-US", {
+          month: "short", day: "numeric", year: "numeric",
+          hour: "numeric", minute: "2-digit"
+        });
+      })
+      .catch(function(err) {
+        document.getElementById("lastUpdated").textContent = "Failed to load";
+        document.getElementById("errorMsg").style.display = "block";
+        document.getElementById("errorMsg").textContent =
+          "Could not load shift data. Error: " + err.message;
+      });
+  }
+
+  function updateStats() {
+    var total  = allShifts.length;
+    var filled = allShifts.filter(function(s) { return s.status === "FILLED"; }).length;
+    var open   = allShifts.filter(function(s) { return s.status === "OPEN"; }).length;
+    var pct    = total > 0 ? ((filled / total) * 100).toFixed(1) : "0.0";
+
+    document.getElementById("totalCount").textContent   = total;
+    document.getElementById("filledCount").textContent  = filled;
+    document.getElementById("openCount").textContent    = open;
+    document.getElementById("percentCount").textContent = pct + "%";
+
+    var banner = document.getElementById("alertBanner");
+    if (open > 0) {
+      banner.style.display = "flex";
+      document.getElementById("alertText").textContent =
+        open + " shift" + (open > 1 ? "s are" : " is") +
+        " currently OPEN and need" + (open === 1 ? "s" : "") + " coverage!";
+    } else {
+      banner.style.display = "none";
+    }
+  }
+
+  function renderTable() {
+    var search    = document.getElementById("searchInput").value.toLowerCase();
+    var filter    = document.getElementById("statusFilter").value;
+    var container = document.getElementById("tableContainer");
+
+    var filtered = allShifts.filter(function(s) {
+      var matchSearch = (s.date + s.block + s.name + s.phone).toLowerCase().includes(search);
+      var matchStatus = filter === "ALL" || s.status === filter;
+      return matchSearch && matchStatus;
+    });
+
+    if (filtered.length === 0) {
+      container.innerHTML = '<div class="table-wrap"><div class="loading">No shifts found.</div></div>';
+      return;
+    }
+
+    var rows = filtered.map(function(s) {
+      var isOpen   = s.status === "OPEN";
+      var rowClass = isOpen ? "open-row" : "";
+      return '<tr class="' + rowClass + '">' +
+        '<td>' + s.date + '</td>' +
+        '<td>' + s.block + '</td>' +
+        '<td>' + (isOpen
+          ? '<a class="signup-btn" href="https://www.signupgenius.com/go/10C054FA9AC23A0F4C43-56532553-wctfire" target="_blank">Sign Up →</a>'
+          : s.name) + '</td>' +
+        '<td>' + (s.phone || '<span style="color:var(--muted)">—</span>') + '</td>' +
+        '<td><span class="badge ' + s.status.toLowerCase() + '">' + s.status + '</span></td>' +
+        '</tr>';
+    }).join('');
+
+    container.innerHTML =
+      '<div class="table-wrap"><table>' +
+        '<thead><tr>' +
+          '<th>Date</th><th>Block</th><th>Assigned Name</th><th>Phone</th><th>Status</th>' +
+        '</tr></thead>' +
+        '<tbody>' + rows + '</tbody>' +
+      '</table></div>';
+  }
+
+  loadData();
+  setInterval(loadData, 5 * 60 * 1000);
+</script>
 
 </body>
 </html>
