@@ -493,11 +493,14 @@
     var rows = filtered.map(function(s) {
       var isOpen   = s.status === "OPEN";
       var rowClass = isOpen ? "open-row" : "";
+      var signupUrl = new Date(s.date) >= new Date(2026, 8, 12)
+        ? "https://www.signupgenius.com/go/10C054FA9AC23A0F4C43-65323122-mercy/79553246#/"
+        : "https://www.signupgenius.com/go/10C054FA9AC23A0F4C43-56532553-wctfire";
       return '<tr class="' + rowClass + '">' +
         '<td>' + s.date + '</td>' +
         '<td>' + s.block + '</td>' +
         '<td>' + (isOpen
-          ? '<a class="signup-btn" href="https://www.signupgenius.com/go/10C054FA9AC23A0F4C43-56532553-wctfire" target="_blank">Sign Up →</a>'
+          ? '<a class="signup-btn" href="' + signupUrl + '" target="_blank">Sign Up →</a>'
           : s.name) + '</td>' +
         '<td>' + (s.phone || '<span style="color:var(--muted)">—</span>') + '</td>' +
         '<td><span class="badge ' + s.status.toLowerCase() + '">' + s.status + '</span></td>' +
